@@ -215,60 +215,76 @@ h1.hero-title em{font-style:italic;color:var(--forest);display:block}
   animation:fadeUp 1s .4s ease forwards;
 }
 
-/* ── FILM WRAPPER ── */
+/* ── FILM STRIP CONTAINER ── */
 .postcards{
   position:relative;
   display:flex;
-  gap:22px;
-  align-items:flex-start;
-  padding:28px;
-  isolation:isolate;
-}
+  flex-direction:column;
+  gap:26px;
 
-/* 🎞️ FILM DARK BASE */
-.postcards::before{
-  content:"";
-  position:absolute;
-  inset:-20px;
+  padding:60px 50px;
   background:#140d07;
-  z-index:-2;
-  box-shadow:0 0 120px rgba(0,0,0,.85) inset;
+
+  border-radius:8px;
+
+  transform:rotate(-18deg) scale(.92); /* 🔥 DIAGONAL LOOK */
+
+  box-shadow:
+    0 40px 100px rgba(0,0,0,.75),
+    inset 0 0 100px rgba(0,0,0,.9);
 }
 
-/* 🎞️ FILM STRIP HOLES */
+/* 🎞️ SIDE FILM HOLES */
+.postcards::before,
 .postcards::after{
   content:"";
   position:absolute;
-  inset:-20px;
+  top:0;
+  bottom:0;
+  width:32px;
   z-index:5;
   pointer-events:none;
 
   background:
     repeating-linear-gradient(
-      to right,
-      transparent 0 28px,
-      #e6c15a 28px 52px
-    ) top / 100% 42px no-repeat,
-
-    repeating-linear-gradient(
-      to right,
-      transparent 0 28px,
-      #e6c15a 28px 52px
-    ) bottom / 100% 42px no-repeat;
+      to bottom,
+      transparent 0 18px,
+      #e6c15a 18px 38px
+    );
 }
 
-/* ── POSTCARD ── */
+.postcards::before{ left:8px; }
+.postcards::after{ right:8px; }
+
+/* ── FILM FRAME (REPLACES POSTCARD LOOK) ── */
 .postcard{
-  width:188px;
-  background:#efe6d6; /* aged paper */
-  border-radius:2px;
-  box-shadow:0 14px 40px rgba(0,0,0,.35);
-  position:relative;
+  width:240px;
+  height:150px;
+  background:#000;
+  border-radius:4px;
   overflow:hidden;
-  transition:transform .35s ease;
+  position:relative;
+
+  box-shadow:
+    0 12px 30px rgba(0,0,0,.6),
+    inset 0 0 40px rgba(0,0,0,.95);
 }
 
-/* 🎞️ GRAIN */
+/* 🎞️ IMAGE */
+.postcard-img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+
+  filter:
+    sepia(70%)
+    contrast(1.1)
+    brightness(0.9)
+    saturate(0.6)
+    blur(.3px);
+}
+
+/* 🎞️ FILM GRAIN */
 .postcard::before{
   content:"";
   position:absolute;
@@ -286,7 +302,7 @@ h1.hero-title em{font-style:italic;color:var(--forest);display:block}
   inset:0;
   background:
     repeating-linear-gradient(
-      120deg,
+      115deg,
       rgba(255,255,255,.08) 0px,
       rgba(255,255,255,.08) 1px,
       transparent 2px,
@@ -296,138 +312,18 @@ h1.hero-title em{font-style:italic;color:var(--forest);display:block}
   pointer-events:none;
 }
 
-/* ── ROTATION ── */
-.postcard:first-child{
-  transform:rotate(-6deg);
-  margin-top:28px;
-}
-.postcard:last-child{
-  transform:rotate(5deg);
+/* 🎞️ VIGNETTE */
+.postcard{
+  background:
+    radial-gradient(circle, transparent 60%, rgba(0,0,0,.85));
 }
 
-.postcard:hover{
-  transform:scale(1.03) rotate(0deg);
-}
-
-/* ── IMAGE ── */
-.postcard-img{
-  width:100%;
-  height:230px;
-  object-fit:cover;
-  object-position:center top;
-  display:block;
-  border-radius:2px 2px 0 0;
-
-  filter:
-    sepia(55%)
-    contrast(1.05)
-    brightness(0.9)
-    saturate(0.7)
-    blur(.2px);
-}
-
-/* EXTRA AGED LOOK */
-.postcard:first-child .postcard-img{
-  filter:
-    sepia(65%)
-    contrast(0.9)
-    brightness(0.85)
-    saturate(0.6);
-}
-
-/* ── STAMP ── */
-.postcard-stamp{
-  position:absolute;
-  top:10px;
-  right:10px;
-  width:30px;
-  height:38px;
-  background:#b8953c;
-  border:1px solid rgba(0,0,0,.25);
-  border-radius:2px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:10px;
-  color:#fff;
-  opacity:.85;
-}
-
-.postcard-stamp::after{
-  content:'';
-  position:absolute;
-  inset:-3px;
-  border:1px dashed rgba(255,255,255,.35);
-}
-
-/* ── POSTMARK ── */
-.postcard-mark{
-  position:absolute;
-  top:12px;
-  left:10px;
-  width:42px;
-  height:42px;
-  border-radius:50%;
-  border:2px solid rgba(80,60,30,.6);
-  background:rgba(230,220,200,.85);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  opacity:.75;
-}
-
-.postcard-mark span{
-  font-size:7px;
-  font-weight:700;
-  color:#3b2f1e;
-  letter-spacing:.04em;
-  text-align:center;
-  line-height:1.3;
-}
-
-/* ── BODY ── */
-.postcard-body{
-  padding:12px;
-  border-top:1px solid rgba(0,0,0,.15);
-  background:#efe6d6;
-}
-
-/* ── TEXT ── */
-.postcard-caption{
-  font-family:'Cormorant Garamond', serif;
-  font-size:11.5px;
-  font-style:italic;
-  color:#3b2f1e;
-  line-height:1.5;
-  opacity:.9;
-}
-
-.postcard-place{
-  font-size:9px;
-  font-weight:600;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  color:#7a6a55;
-  margin-top:4px;
-}
-
-/* ── LINES ── */
+/* ── REMOVE OLD POSTCARD UI ELEMENTS ── */
+.postcard-body,
+.postcard-stamp,
+.postcard-mark,
 .postcard-lines{
-  margin-top:8px;
-  display:flex;
-  flex-direction:column;
-  gap:4px;
-}
-
-.postcard-lines span{
-  display:block;
-  height:1px;
-  background:rgba(0,0,0,.2);
-  width:100%;
-}
-
-.postcard-lines span:last-child{
-  width:58%;
+  display:none;
 }
 
 /* ── FILM FLICKER ── */
@@ -440,7 +336,7 @@ h1.hero-title em{font-style:italic;color:var(--forest);display:block}
   animation:filmFlicker .18s infinite;
 }
 
-/* ── KOLAM DIVIDER ── */
+/* ── KOLAM DIVIDER (UNCHANGED) ── */
 .kolam{
   width:100%;
   height:2px;
